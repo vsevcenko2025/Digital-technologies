@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+</head>
+<body>
+  <a-scene>
+    <a-sky color="grey"></a-sky>
+	<a-torus position="-2 1 -5" color="green" radius="1.2"
+animation="property: components.material.material.color;
+type: color; from: green; to: red; loop: true; dur: 10000">
+</a-torus>
+
+	<a-plane src="12.jpg" width="7" height="7"
+rotation="-55 0 0" position="-2 -2 -5" color="purple">
+</a-plane>
+	<a-cylinder color="yellow" height="2" radius="0.05"position="-2 -1 -5"></a-cylinder>
+	<a-cylinder color="blue" height="2" radius="0.05"position="-3 -1 -5"></a-cylinder>
+	<a-torus-knot color="Purple " radius="1.2" position="-3 1 -5">
+</a-torus-knot>
+<a-plane width="9" height="2" position="3 1 -9" color="orange"></a-plane>
+<a-text value=" Вла " color="black" width="10"position="-1 1 -6" font="vlad-msdf.json" negate="false"></a-text>
+
+
+
+  </a-scene>
+</body>
+</html>
