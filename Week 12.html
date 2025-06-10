@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AR.js GPS + Test Mode</title>
+  <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+  <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
+  <script src="https://rawcdn.githack.com/jeromeetienne/AR.js/1.7.2/aframe/build/aframe-gps.min.js"></script>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    #buttons {
+      position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%);
+      z-index: 1000;
+    }
+    button {
+      font-size: 18px;
+      padding: 10px 20px;
+      margin: 0 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="buttons">
+    <button id="gpsModeBtn">Режим GPS</button>
+    <button id="testModeBtn">Тестовий режим</button>
+    <button id="showLeftModelBtn">Ліва модель</button>
+    <button id="showRightModelBtn">Права модель</button>
+  </div>
+
+  <a-scene
+    vr-mode-ui="enabled: false"
+    embedded
+    arjs="sourceType: webcam; debugUIEnabled: false;"
+    renderer="logarithmicDepthBuffer: true;"
+  >
+    <!-- Камера з GPS -->
+    <a-entity
+      id="camera"
+      camera
+      gps-camera
+      rotation-reader
+      wasd-controls-enabled="false"
+      look-controls-enabled="false"
+    ></a-entity>
+
+    <!-- Ліва модель (GPS) -->
+    <a-entity
+      id="leftModelGPS"
+      gps-entity-place="latitude: 37.4219999; longitude: -122.0840575"
+      gltf-model="images/model-left.glb"
+      scale="1 1 1"
+      visible="false"
+    ></a-entity>
+
+    <!-- Права модель (GPS) -->
+    <a-entity
+      id="rightModelGPS"
+      gps-entity-place="latitude: 37.4225; longitude: -122.0840575"
+      gltf-model="images/model-right.glb"
+      scale="1 1 1"
+      visible="false"
+    ></a-entity>
+
+    <!-- Ліва модель (Тестовий режим) -->
+    <a-entity
+      id="leftModelTest"
+      position="-1 0 -9"
+      gltf-model="images/model-left.glb"
+      scale="1 1 1"
+      visible="false"
+    ></a-entity>
+
+    <!-- Права модель (Тестовий режим) -->
+    <a-entity
+      id="rightModelTest"
+      position="1 0 -9"
+      gltf-model="images/model-right.glb"
+      scale="1 1 1"
+      visible="false"
+    ></a-entity>
+
+  </a-scene>
+
+  <script>
+    const gpsModeBtn = document.getElementById('gpsModeBtn');
+    const testModeBtn = document.getElementById('testModeBtn');
+    const showLeftModelBtn = document.getElementById('showLeftModelBtn');
+    const showRightModelBtn = document.getElementById('showRightModelBtn');
+
+    const leftModelGPS = document.getElementById('leftModelGPS');
+    const rightModelGPS = document.getElementById('rightModelGPS');
+    const leftModelTest = document.getElementById('leftModelTest');
+    const rightModelTest = document.getElementById('rightModelTest');
+
+    // Початковий режим GPS
+    let mode = 'gps';
+
+    // Відключити всі моделі
+    function hideAllModels() {
+      leftModelGPS.setAttribute('visible', 'false');
+      rightModelGPS.setAttribute('visible', 'false');
+      leftModelTest.setAttribute('visible', 'false');
+      rightModelTest.setAttribute('visible', 'false');
+    }
+
+    // Відключити всі кнопки моделей у тестовому режимі
+    function disableModelButtons(disabled) {
+      showLeftModelBtn.disabled = disabled;
+      showRightModelBtn.disabled = disabled;
+    }
+
+    // Переключення на GPS режим
+    gpsModeBtn.onclick = () => {
+      mode = 'gps';
+      hideAllModels();
+      disableModelButtons(true);
+      // Показати обидві GPS моделі
+      leftModelGPS.setAttribute('visible', 'true');
+      rightModelGPS.setAttribute('visible', 'true');
+    };
+
+    // Переключення на тестовий режим
+    testModeBtn.onclick = () => {
+      mode = 'test';
+      hideAllModels();
+      disableModelButtons(false);
+    };
+
+    // Кнопка показати ліву модель (тестовий режим)
+    showLeftModelBtn.onclick = () => {
+      if (mode !== 'test') return;
+      leftModelTest.setAttribute('visible', 'true');
+      rightModelTest.setAttribute('visible', 'false');
+    };
+
+    // Кнопка показати праву модель (тестовий режим)
+    showRightModelBtn.onclick = () => {
+      if (mode !== 'test') return;
+      leftModelTest.setAttribute('visible', 'false');
+      rightModelTest.setAttribute('visible', 'true');
+    };
+
+    // Ініціалізація
+    window.onload = () => {
+      gpsModeBtn.click();
+    };
+  </script>
+
+</body>
+</html>

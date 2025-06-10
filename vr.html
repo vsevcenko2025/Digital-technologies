@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>VR Сонячна система</title>
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-assets>
+        <img id="sun" src="textures/sun.jpg" />
+        <img id="mercury" src="textures/mercury.jpg" />
+        <img id="venus" src="textures/venus.jpg" />
+        <img id="earth" src="textures/earth.jpg" />
+        <img id="mars" src="textures/mars.jpg" />
+        <img id="jupiter" src="textures/jupiter.jpg" />
+        <img id="saturn" src="textures/saturn.jpg" />
+        <img id="uranus" src="textures/uranus.jpg" />
+        <img id="neptune" src="textures/neptune.jpg" />
+      </a-assets>
+      <a-sphere position="0 1.5 0" radius="0.5" src="#sun"></a-sphere>
+      <a-sphere position="1.2 1.5 0" radius="0.1" src="#mercury"></a-sphere>
+      <a-sphere position="1.8 1.5 1.2" radius="0.15" src="#venus"></a-sphere>
+      <a-sphere position="2.5 1.5 0" radius="0.17" src="#earth"></a-sphere>
+      <a-sphere position="3.2 1.5 -1.2" radius="0.14" src="#mars"></a-sphere>
+      <a-sphere position="4.2 1.5 0" radius="0.35" src="#jupiter"></a-sphere>
+      <a-sphere position="5.2 1.5 1.5" radius="0.3" src="#saturn"></a-sphere>
+      <a-sphere position="6.2 1.5 0" radius="0.25" src="#uranus"></a-sphere>
+      <a-sphere position="7.2 1.5 -1.5" radius="0.24" src="#neptune"></a-sphere>
+      <a-entity position="0 2.5 8">
+        <a-camera look-controls wasd-controls-enabled="false"></a-camera>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>

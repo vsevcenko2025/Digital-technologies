@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <script src="script/aframe.min.js"></script>
+</head>
+
+<body>
+    <a-scene backround="src:textures/2k_stars_milky_way.jpg; rotation:0 90 0">
+        <a-assets>
+            <img id="earthnrm" src="textures/2k_earth_normal_map.tif">
+            <img id="stars" src="textures/2k_stars.jpg">
+           
+        </a-assets>
+        <a-sky src="textures/2k_stars_milky_way.jpg" rotation="183 204 0" material="normal-map:stars"></a-sky>
+       
+
+       
+<a-entity position="0 100 300" rotation="-20 0 0">
+  <a-camera></a-camera>
+</a-entity>
+
+
+          
+<a-entity position="0 0 0">
+  
+  <a-sphere src="textures/2k_saturn.jpg" radius="60"
+            animation="property: rotation; to: 0 360 0; loop: true; dur: 30000; easing: linear">
+  </a-sphere>
+
+  
+  <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 20000; easing: linear">
+   
+    <a-ring
+      position="0 0 0"
+      rotation="-90 0 0"
+      radius-inner="70"
+      radius-outer="90"
+      material="color: #dddddd; opacity: 0.8; side: double;">
+    </a-ring>
+
+   
+    <a-ring
+      position="0 0 0"
+      rotation="-90 0 0"
+      radius-inner="90"
+      radius-outer="140"
+      material="color: #888888; opacity: 0.7; side: double;">
+    </a-ring>
+  </a-entity>
+</a-entity>
+
+
+<a-entity light="type: point; color: #ffffff; intensity: 2; distance: 800" position="200 100 200"></a-entity>
+lor: #ffffff; intensity: 1; distance: 1000" position="500 0 0"></a-entity>
+
+
+           
+
+            
+        </a-entity>
+    </a-scene>
+</body>

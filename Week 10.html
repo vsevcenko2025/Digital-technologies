@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hand Angles in Browser</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { position: absolute; top: 0; left: 0; }
+    #angles {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: white;
+      background: rgba(0,0,0,0.6);
+      padding: 10px;
+      font-family: sans-serif;
+      min-width: 150px;
+    }
+  </style>
+</head>
+<body>
+<video id="video" autoplay playsinline style="display:none;"></video>
+<canvas id="canvas" width="640" height="480"></canvas>
+<div id="angles">Немає руки</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+
+<script>
+  const video = document.getElementById('video');
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  const anglesDiv = document.getElementById('angles');
+
+  const hands = new Hands({
+    locateFile: file => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+  });
+
+  hands.setOptions({
+    maxNumHands: 1,
+    modelComplexity: 1,
+    minDetectionConfidence: 0.7,
+    minTrackingConfidence: 0.5,
+    selfieMode: true 
+  });
+
+  hands.onResults(results => {
+    ctx.save();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
+
+    if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+      const lm = results.multiHandLandmarks[0];
+      const handedness = results.multiHandedness[0].label; // "Left" or "Right"
+
+      // Фільтр: переконуємось, що в кадрі є долоня (TIP пальця вище за MCP)
+      const palmVisible = lm[8].y < lm[5].y && lm[12].y < lm[9].y;
+      if (!palmVisible) {
+        anglesDiv.innerHTML = "Немає руки (долоня не видно)";
+        ctx.restore();
+        return;
+      }
+
+      const point = i => [lm[i].x * canvas.width, lm[i].y * canvas.height];
+      const makeVector = (i1, i2) => {
+        const [x1, y1] = point(i1), [x2, y2] = point(i2);
+        return [x2 - x1, y2 - y1];
+      };
+      const angle = (v1, v2) => {
+        const dot = v1[0]*v2[0] + v1[1]*v2[1];
+        const m1 = Math.hypot(...v1), m2 = Math.hypot(...v2);
+        return Math.acos(dot / (m1 * m2)) * 180 / Math.PI;
+      };
+
+      const vectors = {
+        Thumb: makeVector(2, 4),
+        Index: makeVector(5, 8),
+        Middle: makeVector(9, 12),
+        Ring: makeVector(13, 16),
+        Pinky: makeVector(17, 20),
+      };
+
+      const angles = {
+        'Thumb–Index': angle(vectors.Thumb, vectors.Index),
+        'Index–Middle': angle(vectors.Index, vectors.Middle),
+        'Middle–Ring': angle(vectors.Middle, vectors.Ring),
+        'Ring–Pinky': angle(vectors.Ring, vectors.Pinky),
+      };
+
+      anglesDiv.innerHTML = `<strong>Рука: ${handedness === 'Left' ? 'ліва' : 'права'}</strong><br>` +
+        Object.entries(angles)
+          .map(([k, v]) => `${k}: ${v.toFixed(2)}°`).join('<br>');
+    } else {
+      anglesDiv.innerHTML = "Немає руки";
+    }
+    ctx.restore();
+  });
+
+  async function initCamera() {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 } });
+    video.srcObject = stream;
+    video.play();
+
+    video.onloadeddata = async () => {
+      const loop = async () => {
+        await hands.send({ image: video });
+        requestAnimationFrame(loop);
+      };
+      loop();
+    };
+  }
+
+  initCamera();
+</script>
+</body>
+</html>

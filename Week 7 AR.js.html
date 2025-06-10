@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Saturn AR</title>
+  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
+</head>
+
+<body style="margin: 0; overflow: hidden">
+  <a-scene embedded arjs>
+    
+   
+    <a-assets>
+      <img id="saturnTexture" src="textures/2k_saturn.jpg">
+    </a-assets>
+
+    
+    <a-marker type="pattern" url="marker/pattern-Sat.patt">
+      
+      
+      <a-entity position="0 0 0">
+       
+        <a-sphere
+          radius="0.6"
+          src="#saturnTexture"
+          animation="property: rotation; to: 0 360 0; loop: true; dur: 30000;">
+        </a-sphere>
+
+       
+        <a-entity
+          animation="property: rotation; to: 0 360 0; loop: true; dur: 20000; easing: linear">
+
+         
+          <a-ring
+            position="0 0 0"
+            rotation="-90 0 0"
+            radius-inner="0.7"
+            radius-outer="0.9"
+            material="color: #dddddd; opacity: 0.8; side: double;">
+          </a-ring>
+
+        
+          <a-ring
+            position="0 0 0"
+            rotation="-90 0 0"
+            radius-inner="0.9"
+            radius-outer="1.4"
+            material="color: #888888; opacity: 0.7; side: double;">
+          </a-ring>
+        </a-entity>
+
+        
+        <a-entity light="type: point; color: #ffffff; intensity: 2; distance: 5" position="2 2 2"></a-entity>
+      </a-entity>
+    </a-marker>
+
+   
+    <a-entity camera></a-entity>
+  </a-scene>
+</body>
+</html>
