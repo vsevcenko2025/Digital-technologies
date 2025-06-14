@@ -5,55 +5,270 @@
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   </head>
   <body>
-    <a-scene mindar-image="imageTargetSrc: ./marker/Week 5.mind" 
+    <a-scene mindar-image="imageTargetSrc: ./marker/Week5.mind" 
              color-space="sRGB" 
              renderer="colorManagement: true, physicallyCorrectLights" 
              vr-mode-ui="enabled: false" 
              device-orientation-permission-ui="enabled: false">
 
-      <a-assets>
-        <img id="card" src="./marker/Week 5.png" />
-      </a-assets>
+      
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
       <a-entity mindar-image-target="targetIndex: 0">
-        <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
+        
 
-        <a-sphere position="0 0 0.1" radius="0.2" color="yellow"></a-sphere>
+         <a-entity position="0 0 0" scale="0.05 0.05 0.05">
+            
+            <a-entity>
+                <a-sphere src="textures/2k_sun.jpg" radius="7.7"></a-sphere>
+            </a-entity>
 
-        <a-entity animation="property: rotation; to: 0 360 0; dur: 4000; loop: true">
-          <a-sphere position="0.4 0 0" radius="0.04" color="gray"></a-sphere>
-        </a-entity>
+           
+            <a-torus radius="8.7" radius-tubular="0.02" rotation="90 0 0" color="#555" opacity="0.5"></a-torus>
+            <a-torus radius="11.4" radius-tubular="0.02" rotation="90 0 0" color="#666" opacity="0.5"></a-torus>
+            <a-torus radius="15" radius-tubular="0.02" rotation="90 0 0" color="#777" opacity="0.5"></a-torus>
+            <a-torus radius="18.9" radius-tubular="0.02" rotation="90 0 0" color="#888" opacity="0.5"></a-torus>
+            <a-torus radius="48" radius-tubular="0.02" rotation="90 0 0" color="#999" opacity="0.5"></a-torus>
+            <a-torus radius="89.8" radius-tubular="0.02" rotation="90 0 0" color="#aaa" opacity="0.5"></a-torus>
+            <a-torus radius="150" radius-tubular="0.02" rotation="90 0 0" color="#bbb" opacity="0.5"></a-torus>
+            <a-torus radius="200" radius-tubular="0.02" rotation="90 0 0" color="#ccc" opacity="0.5"></a-torus>
 
-        <a-entity animation="property: rotation; to: 0 360 0; dur: 6000; loop: true">
-          <a-sphere position="0.6 0 0" radius="0.05" color="orange"></a-sphere>
-        </a-entity>
+            
+            <a-entity animation="property: rotation;
+                               from: 0 0 0;
+                               to: 0 360 0 ;
+                               dur:8800;
+                               easing:linear;
+                               loop: true;">
+                <a-sphere position="8.7 0 0" src="textures/2k_mercury.jpg" radius="0.5" animation="property: rotation; from: 0 0 0; to: 0 360 0 ; dur:3000; loop: true; easing:linear;" >
+                </a-sphere>
+            </a-entity>
 
-        <a-entity animation="property: rotation; to: 0 360 0; dur: 8000; loop: true">
-          <a-sphere position="0.9 0 0" radius="0.06" color="blue"></a-sphere>
-        </a-entity>
+            
+            <a-entity animation="property: rotation;
+                               from: 0 0 0;
+                               to: 0 360 0 ;
+                               dur:21500;
+                               easing:linear;
+                               loop: true;">
+                <a-sphere position="11.4 0 0" src="textures/2k_venus_surface.jpg" radius="0.9" animation="property: rotation; from: 0 0 0; to: 0 360 0 ; dur:3500; loop: true; easing:linear;">
+                </a-sphere>
+            </a-entity>
 
-        <a-entity animation="property: rotation; to: 0 360 0; dur: 10000; loop: true">
-          <a-sphere position="1.1 0 0" radius="0.05" color="red"></a-sphere>
-        </a-entity>
+            
+            <a-entity animation="property: rotation;
+                               from: 0 0 0;
+                               to: 0 360 0 ;
+                               dur:39500;
+                               easing:linear;
+                               loop: true;">
+                <a-sphere position="15 0 0" src="textures/2k_earth_daymap.jpg" radius="1.1" material="normal-map:#earthnrm" animation="property: rotation; from: 0 0 0; to: 0 360 0 ; dur:3800; loop: true; easing:linear;">
+                    
+                    <a-entity animation="property: rotation;
+                               from: 0 0 0;
+                               to: 0 360 0 ;
+                               dur:3000;
+                               easing:linear;
+                               loop: true;">
+                        <a-sphere position="1.5 0 0" material="src: textures/2k_moon.jpg" radius="0.3"></a-sphere>
+                    </a-entity>
+                </a-sphere>
+            </a-entity>
+			<a-entity animation="property: rotation;
+                               from: 0 0 0;
+                               to: 0 360 0 ;
+                               dur:55600;
+                               easing:linear;
+                               loop: true;">
+                <a-sphere position="18.9 0 0" src="textures/2k_mars.jpg" radius="0.6" animation="property: rotation; from: 0 0 0; to: 0 360 0 ; dur:3500; loop: true; easing:linear;">
+                </a-sphere>
+            </a-entity>
 
-        <a-entity animation="property: rotation; to: 0 360 0; dur: 14000; loop: true">
-          <a-sphere position="1.5 0 0" radius="0.12" color="burlywood"></a-sphere>
-        </a-entity>
+            
+            <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 80000; easing: linear">
+                <a-entity position="0 0 0">
+                    
+                    <a-entity position="35 0 0">
+                        <a-sphere position="0 1 -1" radius="0.8" color="#4A4A4A"></a-sphere>
+                        <a-sphere position="1 -1 1" radius="0.7" color="#696969"></a-sphere>
+                        <a-sphere position="-1 2 -2" radius="0.6" color="#8B7355"></a-sphere>
+                        <a-sphere position="0.5 -0.5 0" radius="0.3" color="#625D5D"></a-sphere>
+                        <a-sphere position="-0.5 1.5 -1" radius="0.4" color="#7F7F7F"></a-sphere>
+                    </a-entity>
 
-        <a-entity animation="property: rotation; to: 0 360 0; dur: 16000; loop: true">
-          <a-sphere position="1.9 0 0" radius="0.1" color="khaki"></a-sphere>
-        </a-entity>
+                    
+                    <a-entity position="33.84 0 8.75">
+                        <a-sphere position="-1 0 2" radius="0.3" color="#4A4A4A"></a-sphere>
+                        <a-sphere position="1 -2 -1" radius="0.5" color="#696969"></a-sphere>
+                        <a-sphere position="2 1 1" radius="0.4" color="#8B7355"></a-sphere>
+                        <a-sphere position="0 1.5 -1" radius="0.3" color="#625D5D"></a-sphere>
+                        <a-sphere position="-1.5 -1 0" radius="0.4" color="#7F7F7F"></a-sphere>
+                    </a-entity>
 
-        <a-entity animation="property: rotation; to: 0 360 0; dur: 18000; loop: true">
-          <a-sphere position="2.3 0 0" radius="0.08" color="lightblue"></a-sphere>
-        </a-entity>
+                   
+               
+                    <a-entity position="17.5 0 30.31">
+                        <a-sphere position="-2 1 1" radius="0.3" color="#4A4A4A"></a-sphere>
+                        <a-sphere position="0 -1 -2" radius="0.5" color="#696969"></a-sphere>
+                        <a-sphere position="1 2 0" radius="0.4" color="#8B7355"></a-sphere>
+                        <a-sphere position="1.5 0 -1" radius="0.3" color="#625D5D"></a-sphere>
+                        <a-sphere position="-1 1.5 0" radius="0.4" color="#7F7F7F"></a-sphere>
+                    </a-entity>
 
-        <a-entity animation="property: rotation; to: 0 360 0; dur: 20000; loop: true">
-          <a-sphere position="2.7 0 0" radius="0.08" color="darkblue"></a-sphere>
-        </a-entity>
-      </a-entity>
+                   
+                    <a-entity position="8.75 0 33.84">
+                        <a-sphere position="-1 0 2" radius="0.3" color="#4A4A4A"></a-sphere>
+                        <a-sphere position="1 -2 -1" radius="0.5" color="#696969"></a-sphere>
+                        <a-sphere position="2 1 1" radius="0.4" color="#8B7355"></a-sphere>
+                        <a-sphere position="0 1.5 -1" radius="0.3" color="#625D5D"></a-sphere>
+                        <a-sphere position="-1.5 -1 0" radius="0.4" color="#7F7F7F"></a-sphere>
+                    </a-entity>
+
+                  
+                    <a-entity position="0 0 35">
+                        <a-sphere position="2 0 -1" radius="0.9" color="#4A4A4A"></a-sphere>
+                        <a-sphere position="-1 -2 1" radius="0.8" color="#696969"></a-sphere>
+                        <a-sphere position="1 1 -2" radius="0.7" color="#8B7355"></a-sphere>
+                        <a-sphere position="-0.5 1 0" radius="0.3" color="#625D5D"></a-sphere>
+                        <a-sphere position="0.5 -1 1" radius="0.4" color="#7F7F7F"></a-sphere>
+                    </a-entity>
+
+                   
+                    <a-entity position="-8.75 0 33.84">
+                        <a-sphere position="-1 0 2" radius="0.3" color="#4A4A4A"></a-sphere>
+                        <a-sphere position="1 -2 -1" radius="0.5" color="#696969"></a-sphere>
+                        <a-sphere position="2 1 1" radius="0.4" color="#8B7355"></a-sphere>
+                        <a-sphere position="0 1.5 -1" radius="0.3" color="#625D5D"></a-sphere>
+                        <a-sphere position="-1.5 -1 0" radius="0.4" color="#7F7F7F"></a-sphere>
+                    </a-entity>
+
+                    <a-entity position="-17.5 0 30.31">
+                        <a-sphere position="-1 2 2" radius="0.3" color="#4A4A4A"></a-sphere>
+                        <a-sphere position="2 -1 -1" radius="0.5" color="#696969"></a-sphere>
+                        <a-sphere position="-2 0 1" radius="0.4" color="#8B7355"></a-sphere>
+                        <a-sphere position="1 1.5 -1" radius="0.3" color="#625D5D"></a-sphere>
+                        <a-sphere position="-1.5 -0.5 0" radius="0.4" color="#7F7F7F"></a-sphere>
+                    </a-entity>
+
+                 
+                    <a-entity position="-24.75 0 25.25">
+                        <a-sphere position="-1 0 2" radius="0.3" color="#4A4A4A"></a-sphere>
+                        <a-sphere position="1 -2 -1" radius="0.5" color="#696969"></a-sphere>
+                        <a-sphere position="2 1 1" radius="0.4" color="#8B7355"></a-sphere>
+                        <a-sphere position="0 1.5 -1" radius="0.3" color="#625D5D"></a-sphere>
+                        <a-sphere position="-1.5 -1 0" radius="0.4" color="#7F7F7F"></a-sphere>
+                    </a-entity>
+
+                    
+                   
+
+                    <a-entity position="-30.31 0 -17.5">
+                        <a-sphere position="2 1 0" radius="0.3" color="#4A4A4A"></a-sphere>
+                        <a-sphere position="-1 -2 -1" radius="0.5" color="#696969"></a-sphere>
+                        <a-sphere position="0 2 1" radius="0.4" color="#8B7355"></a-sphere>
+                        <a-sphere position="1.5 0.5 -1" radius="0.3" color="#625D5D"></a-sphere>
+                        <a-sphere position="-0.5 -1.5 0" radius="0.4" color="#7F7F7F"></a-sphere>
+                    </a-entity>
+
+                    
+                    <a-entity position="0 0 -35">
+                        <a-sphere position="-1 2 2" radius="0.3" color="#4A4A4A"></a-sphere>
+                        <a-sphere position="2 -1 -1" radius="0.5" color="#696969"></a-sphere>
+                        <a-sphere position="1 0 -2" radius="0.4" color="#8B7355"></a-sphere>
+                        <a-sphere position="0.5 1.5 0" radius="0.3" color="#625D5D"></a-sphere>
+                        <a-sphere position="-1 -1.5 1" radius="0.4" color="#7F7F7F"></a-sphere>
+                    </a-entity>
+
+                    
+                    <a-entity position="8.75 0 -33.84">
+                        <a-sphere position="-1 0 2" radius="0.3" color="#4A4A4A"></a-sphere>
+                        <a-sphere position="1 -2 -1" radius="0.5" color="#696969"></a-sphere>
+                        <a-sphere position="2 1 1" radius="0.4" color="#8B7355"></a-sphere>
+                        <a-sphere position="0 1.5 -1" radius="0.3" color="#625D5D"></a-sphere>
+                        <a-sphere position="-1.5 -1 0" radius="0.4" color="#7F7F7F"></a-sphere>
+                    </a-entity>
+
+                    <a-entity position="17.5 0 -30.31">
+                        <a-sphere position="1 0 -1" radius="0.3" color="#4A4A4A"></a-sphere>
+                        <a-sphere position="-2 1 2" radius="0.5" color="#696969"></a-sphere>
+                        <a-sphere position="2 -1 0" radius="0.4" color="#8B7355"></a-sphere>
+                        <a-sphere position="0.5 1.5 -1" radius="0.3" color="#625D5D"></a-sphere>
+                        <a-sphere position="-1.5 -0.5 0" radius="0.4" color="#7F7F7F"></a-sphere>
+                    </a-entity>
+
+                   
+                    <a-entity position="24.75 0 -25.25">
+                        <a-sphere position="-1 0 2" radius="0.3" color="#4A4A4A"></a-sphere>
+                        <a-sphere position="1 -2 -1" radius="0.5" color="#696969"></a-sphere>
+                        <a-sphere position="2 1 1" radius="0.4" color="#8B7355"></a-sphere>
+                        <a-sphere position="0 1.5 -1" radius="0.3" color="#625D5D"></a-sphere>
+                        <a-sphere position="-1.5 -1 0" radius="0.4" color="#7F7F7F"></a-sphere>
+                    </a-entity>
+
+                    <a-entity position="30.31 0 -17.5">
+                        <a-sphere position="-1 -1 1" radius="0.3" color="#4A4A4A"></a-sphere>
+                        <a-sphere position="2 2 -2" radius="0.5" color="#696969"></a-sphere>
+                        <a-sphere position="-2 0 0" radius="0.4" color="#8B7355"></a-sphere>
+                        <a-sphere position="1 1.5 -1" radius="0.3" color="#625D5D"></a-sphere>
+                        <a-sphere position="-1.5 -0.5 1" radius="0.4" color="#7F7F7F"></a-sphere>
+                    </a-entity>
+
+                    
+                    <a-entity position="33.84 0 -8.75">
+                        <a-sphere position="-1 0 2" radius="0.3" color="#4A4A4A"></a-sphere>
+                        <a-sphere position="1 -2 -1" radius="0.5" color="#696969"></a-sphere>
+                        <a-sphere position="2 1 1" radius="0.4" color="#8B7355"></a-sphere>
+                        <a-sphere position="0 1.5 -1" radius="0.3" color="#625D5D"></a-sphere>
+                        <a-sphere position="-1.5 -1 0" radius="0.4" color="#7F7F7F"></a-sphere>
+                    </a-entity>
+                </a-entity>
+            </a-entity>
+
+            
+            <a-entity animation="property: rotation;
+                               from: 0 0 0;
+                               to: 0 360 0 ;
+                               dur:80300;
+                               easing:linear;
+                               loop: true;">
+                <a-sphere position="48 0 0" src="textures/2k_jupiter.jpg" radius="3.6" animation="property: rotation; from: 0 0 0; to: 0 360 0 ; dur:3850; loop: true; easing:linear;">
+                </a-sphere>
+            </a-entity>
+
+            
+            <a-entity animation="property: rotation;
+                               from: 0 0 0;
+                               to: 0 360 0 ;
+                               dur:105600;
+                               easing:linear;
+                               loop: true;">
+                <a-sphere position="89.8 0 0" src="textures/2k_saturn.jpg" radius="3" animation="property: rotation; from: 0 0 0; to: 0 360 0 ; dur:3810; loop: true; easing:linear;">
+                    <a-ring position="0 0 0" radius-inner="3.5" radius-outer="5" rotation="55 25 0" side="double" src="texture/2k_saturn_ring_alpha.png" material="rotation:0 0 0"></a-ring>
+                </a-sphere>
+            </a-entity>
+
+            
+            <a-entity animation="property: rotation;
+                               from: 0 0 0;
+                               to: 0 360 0 ;
+                               dur:301100;
+                               easing:linear;
+                               loop: true;">
+                <a-sphere position="150 0 0" src="textures/2k_uranus.jpg" radius="2" animation="property: rotation; from: 0 0 0; to: 0 360 0 ; dur:3800; loop: true; easing:linear;">
+                </a-sphere>
+            </a-entity>
+
+            
+            <a-entity animation="property: rotation;
+                               from: 0 0 0;
+                               to: 0 360 0 ;
+                               dur:600100;
+                               easing:linear;
+                               loop: true;">
+                <a-sphere position="200 0 0" src="textures/2k_neptune.jpg" radius="2" animation="property: rotation; from: 0 0 0; to: 0 360 0 ; dur:3800; loop: true; easing:linear;">
+                </a-sphere>
+            </a-entity>
     </a-scene>
   </body>
 </html>
