@@ -1,115 +1,86 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.4/dist/mindar-image-three.prod.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/renderers/CSS3DRenderer.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/OBJLoader.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     <style>
-      html, body { 
-        margin: 0; 
-        width: 100%; 
-        height: 100%; 
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      #ar-div {
+      body, html { margin: 0; overflow: hidden; }
+      #youtube-iframe {
+        position: fixed;
+        width: 640px;   /* збільшено ширину */
+        height: 360px;  /* збільшено висоту */
+        pointer-events: none;
         visibility: hidden;
-        width: 80%; /* Задаємо ширину відео */
-        max-width: 1000px; /* Максимальна ширина відео */
-        height: 600px; /* Висота відео */
-        position: relative;
-      }
-
-      iframe { 
-        width: 100%; 
-        height: 100%; 
+        border: none;
+        left: calc(50% - 320px);  /* центр по горизонталі */
+        top: calc(50% - 180px);   /* центр по вертикалі */
       }
     </style>
   </head>
   <body>
-    <div id="ar-div"><div id="player"></div></div>
+    <a-scene
+      mindar-image="imageTargetSrc: marker/Week 9.mind; maxTrack: 2"
+      color-space="sRGB"
+      renderer="colorManagement: true, physicallyCorrectLights"
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: false"
+      embedded
+    >
+      <a-assets>
+        <a-asset-item id="shipModel" src="images/ship.glb"></a-asset-item>
+        <img id="card" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png" />
+      </a-assets>
+
+      <a-camera mindar-image-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+     
+      <a-entity mindar-image-target="targetIndex: 0" position="0 0 0">
+        <a-plane
+          height="0.552"
+          width="1"
+          color="#000"
+          opacity="0"
+          position="0 0 0"
+        ></a-plane>
+      </a-entity>
+
+     
+      <a-entity mindar-image-target="targetIndex: 1" position="0 0 0">
+        <a-gltf-model
+          src="#shipModel"
+          scale="0.35 0.35 0.35"
+          position="0 0 0"
+          rotation="0 0 0"
+          animation="property: position; to: 0 0.1 0; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
+        ></a-gltf-model>
+      </a-entity>
+    </a-scene>
+
+   
+    <iframe
+      id="youtube-iframe"
+      src="https://www.youtube.com/embed/Ya6UF1MiaTc?autoplay=1&mute=1&controls=1&loop=1&playlist=Ya6UF1MiaTc"
+      allow="autoplay; encrypted-media"
+      allowfullscreen
+    ></iframe>
 
     <script>
-      function getVideoId(url) {
-        const urltypes = [
-          "https://www.youtube.com/shorts/",
-          "https://youtu.be/",
-          "https://www.youtube.com/watch?v=",
-        ];
-        if (url.startsWith(urltypes[0])) return url.substr(urltypes[0].length);
-        if (url.startsWith(urltypes[1])) return url.substr(urltypes[1].length);
-        if (url.startsWith(urltypes[2])) {
-          let s = url.substr(urltypes[2].length);
-          let index = s.indexOf("&");
-          return index === -1 ? s : s.substr(0, index);
-        }
-        return url;
-      }
+      const ytIframe = document.getElementById('youtube-iframe');
+      const scene = document.querySelector('a-scene');
 
-      const createYoutube = (url) => {
-        return new Promise((resolve, reject) => {
-          var tag = document.createElement("script");
-          tag.src = "https://www.youtube.com/iframe_api";
-          var firstScriptTag = document.getElementsByTagName("script")[0];
-          firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-          window.onYouTubeIframeAPIReady = () => {
-            const player = new YT.Player("player", {
-              videoId: getVideoId(url),
-              playerVars: {
-                autoplay: 1,
-                mute: 1, 
-              },
-              events: {
-                onReady: (event) => {
-                  resolve(player);
-                },
-              },
-            });
-          };
-        });
-      };
+      const marker0 = scene.querySelector('[mindar-image-target="targetIndex: 0"]');
+      const marker1 = scene.querySelector('[mindar-image-target="targetIndex: 1"]');
 
-      window.addEventListener("click", async () => {
-        const player = await createYoutube("https://youtu.be/Ya6UF1MiaTc");
+      marker0.addEventListener('targetFound', () => {
+        ytIframe.style.visibility = 'visible';
+      });
 
-        
-        const mindarThree = new window.MINDAR.IMAGE.MindARThree({
-          container: document.body,
-          imageTargetSrc: "marker/Week 9.mind", 
-        });
+      marker0.addEventListener('targetLost', () => {
+        ytIframe.style.visibility = 'hidden';
+      });
 
-        const { renderer, cssRenderer, scene, cssScene, camera } = mindarThree;
-
-       
-        const light = new THREE.AmbientLight(0xffffff, 1);
-        scene.add(light);
-
-        
-        const obj = new THREE.CSS3DObject(document.querySelector("#ar-div"));
-        const cssAnchor = mindarThree.addCSSAnchor(0);
-        cssAnchor.group.add(obj);
-        player.seekTo(0);
-        cssAnchor.onTargetFound = () => {
-          player.playVideo(); 
-          player.unMute();    
-        };
-        cssAnchor.onTargetLost = () => {
-          player.pauseVideo();  
-          player.mute();        
-        };
-
-        await mindarThree.start();
-
-        renderer.setAnimationLoop(() => {
-          renderer.render(scene, camera);
-          cssRenderer.render(cssScene, camera);
-        });
+      marker1.addEventListener('targetFound', () => {
+        ytIframe.style.visibility = 'hidden';
       });
     </script>
   </body>
