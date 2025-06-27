@@ -65,8 +65,9 @@
             // Текстура Сатурна
             const textureLoader = new THREE.TextureLoader();
             const saturnTexture = await new Promise((resolve, reject) => {
-              textureLoader.load(
-                "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/saturnringcolor.png", 
+              const textureLoader = new THREE.TextureLoader();
+const saturnTexture = textureLoader.load("https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/saturn.jpg");
+
                 resolve, 
                 undefined, 
                 reject
