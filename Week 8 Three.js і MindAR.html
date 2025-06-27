@@ -10,6 +10,7 @@
         width: 100%;
         height: 100%;
         overflow: hidden;
+        background-color: black;
       }
       #loading {
         position: absolute;
@@ -62,15 +63,14 @@
             
             loadingElement.textContent = "Завантаження текстури...";
             
-            // Текстура Сатурна
             const textureLoader = new THREE.TextureLoader();
+            // Завантажуємо текстуру Сатурна з папки textures
             const saturnTexture = await new Promise((resolve, reject) => {
-              const textureLoader = new THREE.TextureLoader();
-const saturnTexture = textureLoader.load("https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/saturn.jpg");
-
-                resolve, 
-                undefined, 
-                reject
+              textureLoader.load(
+                "textures/satyrn.jpg",
+                texture => resolve(texture),
+                undefined,
+                err => reject(err)
               );
             });
             
@@ -93,25 +93,7 @@ const saturnTexture = textureLoader.load("https://raw.githubusercontent.com/mrdo
             );
             saturn.rotation.x = THREE.MathUtils.degToRad(27);
 
-            // Кільця Сатурна
-            const ringMaterial = new THREE.MeshBasicMaterial({
-              color: 0xccccff,
-              side: THREE.DoubleSide,
-              transparent: true,
-              opacity: 0.5,
-            });
-            const ring = new THREE.Mesh(
-              new THREE.RingGeometry(0.75, 1.35, 128),
-              ringMaterial
-            );
-            ring.rotation.x = -Math.PI / 2;
-
-            // Група Сатурн + кільця
-            const saturnGroup = new THREE.Group();
-            saturnGroup.add(saturn);
-            saturnGroup.add(ring);
-
-            anchor.group.add(saturnGroup);
+            anchor.group.add(saturn);
 
             // Освітлення
             const light = new THREE.DirectionalLight(0xffffff, 1.5);
@@ -126,7 +108,6 @@ const saturnTexture = textureLoader.load("https://raw.githubusercontent.com/mrdo
 
             renderer.setAnimationLoop(() => {
               saturn.rotation.y += 0.005;
-              saturnGroup.rotation.y += 0.001;
               renderer.render(scene, camera);
             });
           } catch (error) {
