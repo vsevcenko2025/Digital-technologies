@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="uk">
   <head>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MindAR + Three.js Сатурн</title>
     <style>
       html, body {
         margin: 0;
@@ -18,7 +20,7 @@
         "mindar-image-three":"https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js"
       }
     }
-    </script>  
+    </script>
   </head>
   <body>
     <script type="module">
@@ -29,7 +31,10 @@
         const start = async () => {
           const mindarThree = new MindARThree({
             container: document.body,
-            imageTargetSrc: "../marker/Week8.mind"
+            // Замените на полный URL к вашему .mind файлу
+            // Например:
+            // imageTargetSrc: "https://YOUR_GITHUB_USERNAME.github.io/marker/Week8.mind"
+            imageTargetSrc: "https://vsevcenko2025.github.io/marker/Week8.mind"
           });
 
           const { renderer, scene, camera } = mindarThree;
