@@ -1,27 +1,88 @@
 <!DOCTYPE html>
 <html>
   <head>
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       html, body {
-	margin: 0;
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
-	}
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
     </style>
-	<script type="importmap">
-	{
-	  "imports": {
-		"three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-    		"three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
-		"mindar-image-three":"https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js"
-	  }
-	}
-	</script>  
-</head>
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+        "mindar-image-three":"https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js"
+      }
+    }
+    </script>  
+  </head>
   <body>
-    <script type="module" src="main.js"></script>
+    <script type="module">
+      import * as THREE from 'three';
+      import { MindARThree } from 'mindar-image-three';
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const start = async () => {
+          const mindarThree = new MindARThree({
+            container: document.body,
+            imageTargetSrc: "../marker/Week8.mind"
+          });
+
+          const { renderer, scene, camera } = mindarThree;
+
+          const anchor = mindarThree.addAnchor(0);
+
+          // Текстура Сатурна
+          const textureLoader = new THREE.TextureLoader();
+          const saturnTexture = textureLoader.load("textures/2k_saturn_ring_alpha.png");
+
+          // Модель Сатурна
+          const saturn = new THREE.Mesh(
+            new THREE.SphereGeometry(0.6, 64, 64),
+            new THREE.MeshStandardMaterial({ map: saturnTexture })
+          );
+          saturn.rotation.x = THREE.MathUtils.degToRad(27);
+
+          // Кільця Сатурна
+          const ringMaterial = new THREE.MeshBasicMaterial({
+            color: 0xccccff,
+            side: THREE.DoubleSide,
+            transparent: true,
+            opacity: 0.5,
+          });
+          const ring = new THREE.Mesh(
+            new THREE.RingGeometry(0.75, 1.35, 128),
+            ringMaterial
+          );
+          ring.rotation.x = -Math.PI / 2;
+
+          // Група Сатурн + кільця
+          const saturnGroup = new THREE.Group();
+          saturnGroup.add(saturn);
+          saturnGroup.add(ring);
+
+          anchor.group.add(saturnGroup);
+
+          // Освітлення
+          const light = new THREE.DirectionalLight(0xffffff, 1.5);
+          light.position.set(5, 5, 5);
+          anchor.group.add(light);
+
+          await mindarThree.start();
+
+          renderer.setAnimationLoop(() => {
+            saturn.rotation.y += 0.005;
+            saturnGroup.rotation.y += 0.001;
+            renderer.render(scene, camera);
+          });
+        };
+
+        start();
+      });
+    </script>
   </body>
 </html>
-
