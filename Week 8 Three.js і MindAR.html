@@ -10,19 +10,20 @@
         width: 100%;
         height: 100%;
         overflow: hidden;
-        
+        background-color: #ddd; /* Світлий фон */
       }
       #loading {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        color: white;
+        color: black;
         font-family: Arial, sans-serif;
         font-size: 24px;
-        background: rgba(0,0,0,0.7);
+        background: rgba(255,255,255,0.8);
         padding: 20px;
         border-radius: 10px;
+        z-index: 10;
       }
       #error {
         position: absolute;
@@ -32,10 +33,11 @@
         color: red;
         font-family: Arial, sans-serif;
         font-size: 24px;
-        background: rgba(0,0,0,0.7);
+        background: rgba(255,255,255,0.8);
         padding: 20px;
         border-radius: 10px;
         display: none;
+        z-index: 10;
       }
     </style>
     <script type="importmap">
@@ -64,10 +66,9 @@
             loadingElement.textContent = "Завантаження текстури...";
             
             const textureLoader = new THREE.TextureLoader();
-            // Завантажуємо текстуру Сатурна з папки textures
             const saturnTexture = await new Promise((resolve, reject) => {
               textureLoader.load(
-                "textures/satyrn.jpg",
+                "textures/2k_saturn.jpg", 
                 texture => resolve(texture),
                 undefined,
                 err => reject(err)
@@ -83,6 +84,7 @@
 
             const { renderer, scene, camera } = mindarThree;
             renderer.outputColorSpace = THREE.SRGBColorSpace;
+            renderer.setClearColor(0xdddddd); // Світло-сірий фон
 
             const anchor = mindarThree.addAnchor(0);
 
@@ -92,14 +94,26 @@
               new THREE.MeshStandardMaterial({ map: saturnTexture })
             );
             saturn.rotation.x = THREE.MathUtils.degToRad(27);
-
             anchor.group.add(saturn);
 
+            // Кільця Сатурна без текстури, напівпрозорі
+            const ringGeometry = new THREE.RingGeometry(0.7, 1.0, 64);
+            const ringMaterial = new THREE.MeshBasicMaterial({
+              color: 0xcccccc,
+              side: THREE.DoubleSide,
+              transparent: true,
+              opacity: 0.4
+            });
+            const rings = new THREE.Mesh(ringGeometry, ringMaterial);
+            rings.rotation.x = THREE.MathUtils.degToRad(27);
+            rings.rotation.y = THREE.MathUtils.degToRad(45);
+            anchor.group.add(rings);
+
             // Освітлення
-            const light = new THREE.DirectionalLight(0xffffff, 1.5);
-            light.position.set(5, 5, 5);
-            anchor.group.add(light);
-            scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+            directionalLight.position.set(5, 5, 5);
+            anchor.group.add(directionalLight);
+            scene.add(new THREE.AmbientLight(0xffffff, 0.8));
 
             loadingElement.textContent = "Запуск AR...";
             
@@ -108,6 +122,7 @@
 
             renderer.setAnimationLoop(() => {
               saturn.rotation.y += 0.005;
+              rings.rotation.z += 0.002;
               renderer.render(scene, camera);
             });
           } catch (error) {
