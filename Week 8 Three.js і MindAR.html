@@ -10,7 +10,7 @@
         width: 100%;
         height: 100%;
         overflow: hidden;
-        background-color: #ddd; /* Світлий фон */
+        background-color: transparent;
       }
       #loading {
         position: absolute;
@@ -39,12 +39,18 @@
         display: none;
         z-index: 10;
       }
+      canvas {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
     </style>
     <script type="importmap">
     {
       "imports": {
         "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
         "mindar-image-three":"https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js"
       }
     }
@@ -62,21 +68,21 @@
           try {
             const loadingElement = document.getElementById('loading');
             const errorElement = document.getElementById('error');
-            
+
             loadingElement.textContent = "Завантаження текстури...";
-            
+
             const textureLoader = new THREE.TextureLoader();
             const saturnTexture = await new Promise((resolve, reject) => {
               textureLoader.load(
-                "textures/2k_saturn.jpg", 
+                "textures/2k_saturn.jpg",
                 texture => resolve(texture),
                 undefined,
                 err => reject(err)
               );
             });
-            
+
             loadingElement.textContent = "Ініціалізація MindAR...";
-            
+
             const mindarThree = new MindARThree({
               container: document.body,
               imageTargetSrc: "Week8.mind"
@@ -84,7 +90,10 @@
 
             const { renderer, scene, camera } = mindarThree;
             renderer.outputColorSpace = THREE.SRGBColorSpace;
-            renderer.setClearColor(0xdddddd); // Світло-сірий фон
+
+            // Прозорий фон (щоб була камера)
+            renderer.setClearColor(0x000000, 0);
+            renderer.setClearAlpha(0);
 
             const anchor = mindarThree.addAnchor(0);
 
@@ -106,7 +115,7 @@
             });
             const rings = new THREE.Mesh(ringGeometry, ringMaterial);
             rings.rotation.x = THREE.MathUtils.degToRad(27);
-            rings.rotation.y = THREE.MathUtils.degToRad(45);
+            // Без повороту по Y, щоб кільця не перекошувались
             anchor.group.add(rings);
 
             // Освітлення
@@ -116,7 +125,7 @@
             scene.add(new THREE.AmbientLight(0xffffff, 0.8));
 
             loadingElement.textContent = "Запуск AR...";
-            
+
             await mindarThree.start();
             loadingElement.style.display = "none";
 
