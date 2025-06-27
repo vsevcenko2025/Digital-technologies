@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const mindarThree = new MindARThree({
       container: document.body,
-      imageTargetSrc: "../marker/Week 8.mind" // Шлях до вашого патерну
+      imageTargetSrc: "Week8.mind" 
     });
 
     const { renderer, scene, camera } = mindarThree;
